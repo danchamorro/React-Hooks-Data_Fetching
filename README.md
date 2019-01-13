@@ -127,3 +127,59 @@ export default function App() {
   );
 }
 ```
+
+## Displaying Loading State with useState
+
+```javascript
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
+export default function App() {
+  const [results, setResults] = useState([]);
+  const [query, setQuery] = useState("react hooks");
+  const [loading, setLoading] = useState(false); // Loading State
+
+  useEffect(() => {
+    getResults();
+  }, []);
+
+  const getResults = async () => {
+    setLoading(true); // Set Loading to true before api call
+    const response = await axios.get(
+      `http://hn.algolia.com/api/v1/search?query=${query}`
+    );
+    setResults(response.data.hits);
+    setLoading(false); // Set loading to false after response
+  };
+
+  const handleSearch = event => {
+    event.preventDefault();
+    getResults();
+  };
+
+  return (
+    <>
+      <form onSubmit={handleSearch}>
+        <input
+          type="text"
+          onChange={event => setQuery(event.target.value)}
+          value={query}
+        />
+        <button type="submit">Search</button>
+      </form>
+      {/* Ternary to conditionally display.*/}
+      {loading ? (
+        <div>Loading Results...</div>
+      ) : (
+        <ul>
+          {results.map(result => (
+            <li key={result.objectID}>
+              <a href={result.url}>{result.title}</a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
+  );
+}
+```
