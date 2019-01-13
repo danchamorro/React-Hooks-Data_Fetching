@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "./App.css";
 
 export default function App() {
   const [results, setResults] = useState([]);
@@ -25,26 +26,34 @@ export default function App() {
   };
 
   return (
-    <>
+    <div className="container mt-3">
+      <h1>Hook News</h1>
       <form onSubmit={handleSearch}>
-        <input
-          type="text"
-          onChange={event => setQuery(event.target.value)}
-          value={query}
-        />
-        <button type="submit">Search</button>
+        <div className="form-group row">
+          <div className="col-sm-11">
+            <input
+              type="text"
+              onChange={event => setQuery(event.target.value)}
+              value={query}
+              className="form-control"
+            />
+          </div>
+          <button type="submit" className="btn btn-outline-success">
+            Search
+          </button>
+        </div>
       </form>
       {loading ? (
         <div>Loading Results...</div>
       ) : (
-        <ul>
+        <ul className="list-group list-group-flush">
           {results.map(result => (
-            <li key={result.objectID}>
+            <li key={result.objectID} className="list-group-item">
               <a href={result.url}>{result.title}</a>
             </li>
           ))}
         </ul>
       )}
-    </>
+    </div>
   );
 }
