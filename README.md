@@ -2,6 +2,8 @@
 
 This app is called React News. I will build an app to learn more about fetching data with Hooks and replacing Class Lifecycle Methods.
 
+https://hook-news.netlify.com/
+
 ---
 
 ## Fetching Data on component Mount with useEffect
