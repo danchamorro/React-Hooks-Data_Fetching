@@ -3,3 +3,37 @@
 This app is called React News. I will build an app to learn more about fetching data with Hooks and replacing Class Lifecycle Methods.
 
 ---
+
+## Fetching Data on component Mount with useEffect
+
+_* useEffect() default behavior is to run after every render so we need to add a second argument of a empty array *_
+
+```javascript
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
+export default function App() {
+  const [results, setResults] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://hn.algolia.com/api/v1/search?query=reacthooks")
+      .then(res => {
+        console.log(res.data);
+        setResults(res.data.hits);
+      });
+  }, []); // Must add second argument of empty array because useEffect() default behavior.
+
+  return (
+    <>
+      <ul>
+        {results.map(result => (
+          <li key={result.objectID}>
+            <a href={result.url}>{result.title}</a>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+```
